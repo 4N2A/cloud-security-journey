@@ -158,7 +158,7 @@ Internet
    - `db-sg`: allow inbound 5432 from `web-sg` only (no public access)
    - `bastion-sg`: allow SSH (port 22) from your IP only
 
-### Your networking background in AWS terms
+### This is where my networking background helps in AWS terms
 
 | Your skill | AWS equivalent |
 |---|---|
