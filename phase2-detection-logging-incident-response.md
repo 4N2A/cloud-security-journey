@@ -3,7 +3,7 @@
 **Author:** Okonkwo Nnanna C.  
 **Goal:** Build a full detection and logging pipeline — VPC Flow Logs, CloudTrail, Wazuh SIEM, GuardDuty alerts, and incident reporting.  
 **Stack:** CloudWatch · VPC Flow Logs · GuardDuty · Wazuh · EventBridge · SNS  
-**Status:** 🔨 In progress
+**Status:** 🔨 Done
 
 ---
 
@@ -73,6 +73,7 @@ aws ec2 create-flow-logs \
 | `action` | ACCEPT or REJECT |
 | `bytes` | Data transferred |
 | `start` / `end` | Connection timestamp |
+<img width="1920" height="918" alt="image" src="https://github.com/user-attachments/assets/63cb3d35-2fdf-4e58-a4d4-c3cbe2e5a921" />
 
 ---
 
@@ -86,7 +87,10 @@ fields @timestamp, srcAddr, dstAddr, dstPort, action
 | filter action = "REJECT"
 | sort @timestamp desc
 | limit 50
+
 ```
+<img width="1920" height="912" alt="image" src="https://github.com/user-attachments/assets/1acc82f3-b094-44c8-b341-f992e78b07f1" />
+
 
 ### Find top source IPs (potential scanners)
 ```sql
@@ -94,7 +98,10 @@ fields srcAddr, dstAddr, dstPort
 | stats count() as connections by srcAddr
 | sort connections desc
 | limit 20
+
 ```
+<img width="1920" height="910" alt="image" src="https://github.com/user-attachments/assets/1be145ff-561d-4aff-b504-34864c1054fa" />
+
 
 ### Find SSH brute force attempts (port 22 rejects)
 ```sql
@@ -102,7 +109,10 @@ fields @timestamp, srcAddr, dstAddr, action
 | filter dstPort = 22 and action = "REJECT"
 | stats count() as attempts by srcAddr
 | sort attempts desc
+
 ```
+<img width="1920" height="908" alt="image" src="https://github.com/user-attachments/assets/2856a25b-4977-486d-933f-407f686bc7c9" />
+
 
 ### Find unusual outbound connections from private subnet
 ```sql
@@ -111,7 +121,10 @@ fields @timestamp, srcAddr, dstAddr, dstPort, bytes
 | filter action = "ACCEPT"
 | sort bytes desc
 | limit 30
+
 ```
+<img width="1920" height="914" alt="image" src="https://github.com/user-attachments/assets/ff415bde-efa3-4bba-a96b-c5bc607f37e9" />
+
 
 ### Find CloudTrail: root account login
 ```sql
@@ -119,7 +132,10 @@ fields @timestamp, userIdentity.type, sourceIPAddress, eventName
 | filter userIdentity.type = "Root"
 | filter eventName = "ConsoleLogin"
 | sort @timestamp desc
+
 ```
+<img width="1920" height="909" alt="image" src="https://github.com/user-attachments/assets/7edf5340-11ba-4f00-b29a-35772af8e59a" />
+
 
 ### Find CloudTrail: IAM changes
 ```sql
@@ -128,13 +144,17 @@ fields @timestamp, userIdentity.userName, eventName, sourceIPAddress
 | filter eventName in ["CreateUser","DeleteUser","AttachUserPolicy","CreateAccessKey"]
 | sort @timestamp desc
 ```
+<img width="1920" height="904" alt="image" src="https://github.com/user-attachments/assets/0afa50a6-a675-4345-8503-2f11713b62a1" />
+
 
 ### Find CloudTrail: security group modifications
 ```sql
 fields @timestamp, userIdentity.userName, eventName, requestParameters
 | filter eventName in ["AuthorizeSecurityGroupIngress","RevokeSecurityGroupIngress"]
 | sort @timestamp desc
+
 ```
+<img width="1920" height="904" alt="image" src="https://github.com/user-attachments/assets/9cea2f2f-acce-45b4-b8f0-346cf416c25e" />
 
 ---
 
@@ -146,6 +166,9 @@ fields @timestamp, userIdentity.userName, eventName, requestParameters
 - Subnet: private subnet
 - IAM role: attach `AmazonS3ReadOnlyAccess` (to read CloudTrail bucket)
 
+<img width="1916" height="905" alt="image" src="https://github.com/user-attachments/assets/2d5e2764-a55e-42ab-8394-c4950a881475" />
+
+
 ### Create `wazuh-sg` Security Group
 
 | Direction | Port | Protocol | Source | Reason |
@@ -154,6 +177,9 @@ fields @timestamp, userIdentity.userName, eventName, requestParameters
 | Inbound | 1515 | TCP | `app-sg` | Agent registration |
 | Inbound | 443 | TCP | `bastion-sg` | Wazuh dashboard |
 | Inbound | 22 | TCP | `bastion-sg` | SSH access |
+
+<img width="1920" height="908" alt="image" src="https://github.com/user-attachments/assets/e39fadd7-2893-4595-a6d6-e7368d0c579e" />
+
 
 ### Install Wazuh Manager
 
@@ -187,7 +213,10 @@ sudo tail -f /var/ossec/logs/ossec.log
 sudo yum install wazuh-indexer wazuh-dashboard -y
 sudo systemctl enable wazuh-indexer wazuh-dashboard
 sudo systemctl start wazuh-indexer wazuh-dashboard
+
 ```
+<img width="1920" height="985" alt="image" src="https://github.com/user-attachments/assets/8d0adff6-c652-4b2a-aac7-0c5ef333bb05" />
+
 
 ### Install Wazuh Agent on Each EC2
 
