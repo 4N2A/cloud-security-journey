@@ -11,7 +11,7 @@
 
 When you create an AWS account, it ships insecure by default. The root account has unlimited power, no multi-factor authentication (MFA) is enforced, billing has no alerts, and anyone with credentials can spin up resources in any region. A cloud security engineer's first job is to lock this down *before* deploying anything.
 
-This document covers exactly that — modelled on real-world best practices (CIS AWS Foundations Benchmark).
+This document covers exactly that modelled on real-world best practices (CIS AWS Foundations Benchmark).
 
 ---
 
@@ -26,18 +26,19 @@ The root account is the most powerful identity in AWS. It should never be used f
 4. **Lock the root account away** — use it only for account-level actions (e.g. closing the account, changing the support plan).
 
 ### Why
-If root credentials are compromised, an attacker has complete control — they can delete all resources, exfiltrate data, and lock you out. There is no recovery without contacting AWS support.
+If root credentials are compromised, an attacker has complete control they can delete all resources, exfiltrate data, and lock you out. There is no recovery without contacting AWS support.
 
 ---
 
 ## Step 2 — Enable Billing Alerts
 
-Before spending a single dollar, set up cost protection. Attackers who compromise an account will often spin up GPU instances for crypto mining — billing alerts catch this fast.
+Before spending a single dollar, set up cost protection. Attackers who compromise an account will often spin up GPU instances for crypto mining billing alerts catch this fast.
 
 ### Actions
 1. Go to **Billing Console** → Billing Preferences → enable "Receive Billing Alerts".
 2. Go to **CloudWatch** → Alarms → Create Alarm → Select metric → Billing → Total Estimated Charge.
 3. Set a threshold (e.g. $5 for a lab account) and send alert to your email via SNS.
+
 
 ### CLI equivalent
 ```bash
@@ -67,6 +68,8 @@ Never use root for daily work. Create a dedicated IAM user with admin privileges
 3. Attach policy: `AdministratorAccess` (for your personal lab — in production, use a custom policy).
 4. Enable **MFA** on this user too.
 5. Generate **Access Keys** for CLI use — store securely, never commit to GitHub.
+<img width="1920" height="911" alt="image" src="https://github.com/user-attachments/assets/91edf862-e754-47e2-896e-00019a7ded51" />
+
 
 ### Principle of Least Privilege
 In production environments, nobody gets `AdministratorAccess`. Instead, you create roles scoped to specific tasks:
@@ -95,6 +98,9 @@ Go to **IAM** → Account settings → Set password policy:
 | Require symbols | ✅ |
 | Password expiry | 90 days |
 | Prevent reuse | Last 24 passwords |
+Note: I used 365 days because this was just a test enivorment but always use a shorter days in live enivroment 
+<img width="1918" height="910" alt="image" src="https://github.com/user-attachments/assets/f1520c50-378a-4cc5-884d-4d4781bef1ac" />
+
 
 ### CLI equivalent
 ```bash
@@ -112,7 +118,7 @@ aws iam update-account-password-policy \
 
 ## Step 5 — Enable AWS CloudTrail (Audit Log)
 
-CloudTrail records every API call made in your account — who did what, when, and from where. This is your forensic trail.
+CloudTrail records every API call made in your account who did what, when, and from where. This is your forensic trail.
 
 ### Actions
 1. Go to **CloudTrail** → Create trail.
@@ -127,6 +133,7 @@ CloudTrail records every API call made in your account — who did what, when, a
 - `CreateUser` / `DeleteUser` — IAM changes
 - `AuthorizeSecurityGroupIngress` — firewall rule changes
 - `StopLogging` — someone trying to disable CloudTrail (critical alert!)
+<img width="1920" height="904" alt="image" src="https://github.com/user-attachments/assets/6d9439f5-305a-41bf-9172-8b0d6db6d925" />
 
 ---
 
@@ -157,10 +164,21 @@ Internet
    - `web-sg`: allow inbound 443 from 0.0.0.0/0, deny everything else
    - `db-sg`: allow inbound 5432 from `web-sg` only (no public access)
    - `bastion-sg`: allow SSH (port 22) from your IP only
+  <img width="1920" height="916" alt="image" src="https://github.com/user-attachments/assets/578d1398-e031-4690-b10b-f17ed4952fd5" />
 
-### Your networking background in AWS terms
+  <img width="1919" height="902" alt="image" src="https://github.com/user-attachments/assets/49a943b1-a69e-45a2-86b6-f749f0efbddc" />
 
-| Your skill | AWS equivalent |
+  <img width="1919" height="906" alt="image" src="https://github.com/user-attachments/assets/6b98d507-7545-4d29-9d08-598545678883" />
+
+  <img width="1920" height="913" alt="image" src="https://github.com/user-attachments/assets/0083520a-459a-4bdd-9066-d8ea88020eda" />
+
+  <img width="1920" height="909" alt="image" src="https://github.com/user-attachments/assets/b6481ad5-a5f1-4f53-bc6b-8c78e4f507ba" />
+
+
+
+### My networking background in AWS terms
+
+| My skill | AWS equivalent |
 |---|---|
 | VLAN segmentation | Subnets (public/private) |
 | Firewall rules (FortiGate) | Security Groups + NACLs |
