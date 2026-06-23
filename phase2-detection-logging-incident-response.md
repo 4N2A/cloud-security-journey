@@ -227,7 +227,12 @@ sudo yum install wazuh-agent -y
 
 # Point agent at Wazuh manager
 sudo nano /var/ossec/etc/ossec.conf
+
 ```
+<img width="774" height="646" alt="image" src="https://github.com/user-attachments/assets/569573aa-371a-4ee2-b305-21a83456ae48" />
+
+<img width="853" height="386" alt="image" src="https://github.com/user-attachments/assets/1ff5e158-de21-446e-bb6a-288e9e91050d" />
+
 
 Set the server block:
 ```xml
@@ -248,7 +253,10 @@ sudo systemctl start wazuh-agent
 
 # Register agent with manager (run on manager)
 sudo /var/ossec/bin/manage_agents
+
 ```
+<img width="1918" height="910" alt="image" src="https://github.com/user-attachments/assets/aaef249a-f2d9-4090-816a-500478f41f1f" />
+
 
 ### Connect CloudTrail Logs to Wazuh
 
