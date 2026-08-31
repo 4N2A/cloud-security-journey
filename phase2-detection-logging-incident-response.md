@@ -260,6 +260,12 @@ sudo /var/ossec/bin/manage_agents
 
 ### Connect CloudTrail Logs to Wazuh
 
+<img width="1920" height="911" alt="Wazuh cloudtrail role creation " src="https://github.com/user-attachments/assets/7dba59aa-1d31-4f4d-bb50-9465ec007652" />
+
+<img width="1919" height="915" alt="wazuh iam " src="https://github.com/user-attachments/assets/48838ae9-2649-4a8c-a9e8-5b347d1cb49f" />
+
+
+
 Edit the Wazuh manager config to pull from your CloudTrail S3 bucket:
 
 ```bash
@@ -283,6 +289,8 @@ Add:
 ```bash
 sudo systemctl restart wazuh-manager
 ```
+<img width="942" height="401" alt="image" src="https://github.com/user-attachments/assets/59f50c9b-5926-4961-9b0a-5baec9ab57fd" />
+
 
 Wazuh will now ingest CloudTrail events and match them against its built-in AWS ruleset — detecting root logins, IAM changes, S3 bucket policy changes, and more.
 
