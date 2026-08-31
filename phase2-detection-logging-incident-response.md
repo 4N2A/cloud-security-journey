@@ -313,6 +313,7 @@ Wazuh will now ingest CloudTrail events and match them against its built-in AWS 
   }
 }
 ```
+<img width="1920" height="911" alt="image" src="https://github.com/user-attachments/assets/e8a72d50-6c58-4fbb-89b5-0d92f1396db6" />
 
 4. Target: SNS topic → `security-alerts`
 
