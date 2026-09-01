@@ -359,6 +359,8 @@ Use this template for every security finding you investigate. This is what cloud
 
 One paragraph describing what happened, what systems were affected, and current status. Written for a non-technical audience.
 
+<img width="756" height="438" alt="image" src="https://github.com/user-attachments/assets/97e6de88-fe19-4aba-b3cd-96290c6fd217" />
+
 ---
 
 ## 2. Timeline
@@ -371,6 +373,8 @@ One paragraph describing what happened, what systems were affected, and current 
 | 14:30:00 | Source IP identified and blocked |
 | 14:45:00 | EC2 instance verified as uncompromised |
 | 15:00:00 | Incident contained |
+
+<img width="757" height="224" alt="image" src="https://github.com/user-attachments/assets/e2bb5266-dee4-4163-b4db-96f027271a25" />
 
 ---
 
@@ -387,6 +391,8 @@ One paragraph describing what happened, what systems were affected, and current 
 | Region | eu-west-1 |
 | Account ID | 123456789012 |
 
+<img width="641" height="308" alt="image" src="https://github.com/user-attachments/assets/d6df6013-acfc-4f77-a55a-e224eb1592ed" />
+
 ---
 
 ## 4. Evidence
@@ -396,6 +402,8 @@ One paragraph describing what happened, what systems were affected, and current 
 2024-01-15T14:23:01Z srcAddr=185.220.101.45 dstAddr=10.0.2.14 dstPort=22 action=REJECT
 2024-01-15T14:23:02Z srcAddr=185.220.101.45 dstAddr=10.0.2.14 dstPort=22 action=REJECT
 [847 similar entries]
+
+
 ```
 
 ### CloudWatch Logs Insights Query Used
@@ -404,6 +412,9 @@ fields @timestamp, srcAddr, dstAddr, action
 | filter dstPort = 22 and action = "REJECT"
 | filter srcAddr = "185.220.101.45"
 | sort @timestamp desc
+
+<img width="695" height="492" alt="image" src="https://github.com/user-attachments/assets/02e5e433-65ae-4d3c-b6b0-8f37cdb2f456" />
+
 ```
 
 ### GuardDuty Finding JSON
@@ -425,7 +436,65 @@ fields @timestamp, srcAddr, dstAddr, action
     "count": 847
   }
 }
-```
+```{
+    "eventVersion": "1.11",
+    "userIdentity": {
+        "type": "IAMUser",
+        "principalId": "AIDAQRQPWVY6MNLNT7563",
+        "arn": "arn:aws:iam::037613907516:user/admin-nnanna",
+        "accountId": "037613907516",
+        "accessKeyId": "ASIAQRQPWVY6KOJM3LQM",
+        "userName": "admin-nnanna",
+        "sessionContext": {
+            "attributes": {
+                "creationDate": "2026-08-31T17:03:58Z",
+                "mfaAuthenticated": "true"
+            }
+        }
+    },
+    "eventTime": "2026-08-31T17:26:58Z",
+    "eventSource": "ec2.amazonaws.com",
+    "eventName": "ModifySecurityGroupRules",
+    "awsRegion": "us-east-1",
+    "sourceIPAddress": "90.196.68.28",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36",
+    "requestParameters": {
+        "ModifySecurityGroupRulesRequest": {
+            "SecurityGroupRule": {
+                "SecurityGroupRuleId": "sgr-0e7de70fe585475d3",
+                "tag": 1,
+                "SecurityGroupRule": {
+                    "CidrIpv4": "90.196.68.28/32",
+                    "Description": "My home IP - SSH only",
+                    "FromPort": 22,
+                    "ToPort": 22,
+                    "IpProtocol": "tcp"
+                }
+            },
+            "GroupId": "sg-0d2a0da2ef8daa944"
+        }
+    },
+    "responseElements": {
+        "ModifySecurityGroupRulesResponse": {
+            "xmlns": "http://ec2.amazonaws.com/doc/2016-11-15/",
+            "requestId": "73bbc59f-fcbf-4dea-ab41-cf59e3e4a4dc",
+            "return": true
+        }
+    },
+    "requestID": "73bbc59f-fcbf-4dea-ab41-cf59e3e4a4dc",
+    "eventID": "6aab75c2-eddb-4903-ac20-ccba06a4c7a0",
+    "readOnly": false,
+    "eventType": "AwsApiCall",
+    "managementEvent": true,
+    "recipientAccountId": "037613907516",
+    "eventCategory": "Management",
+    "tlsDetails": {
+        "tlsVersion": "TLSv1.3",
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "ec2.us-east-1.amazonaws.com"
+    },
+    "sessionCredentialFromConsole": "true"
+}
 
 ---
 
@@ -438,6 +507,8 @@ fields @timestamp, srcAddr, dstAddr, action
 | Service disruption | None |
 | Data integrity | Not affected |
 
+<img width="637" height="167" alt="image" src="https://github.com/user-attachments/assets/b80a6eee-9a45-428f-9ea0-ec69dd886993" />
+
 ---
 
 ## 6. Root Cause
@@ -448,6 +519,8 @@ The EC2 instance was targeted by an automated SSH brute force scanner. The attac
 - fail2ban would have banned the IP at OS level if traffic had reached the instance
 
 The security controls from Phase 1 hardening worked as intended.
+
+<img width="610" height="183" alt="image" src="https://github.com/user-attachments/assets/f767e3fb-da2e-429e-be13-dae23ad58fff" />
 
 ---
 
@@ -461,6 +534,8 @@ The security controls from Phase 1 hardening worked as intended.
 | GuardDuty finding marked as resolved | Complete | 15:00 UTC |
 | IP reported to AbuseIPDB | Complete | 15:05 UTC |
 
+<img width="640" height="399" alt="image" src="https://github.com/user-attachments/assets/fc02109c-74cb-446d-a5ce-527730314c61" />
+
 ---
 
 ## 8. Lessons Learned
@@ -468,6 +543,8 @@ The security controls from Phase 1 hardening worked as intended.
 - Detection to alert took 5 seconds — GuardDuty + EventBridge + SNS pipeline working correctly
 - All Phase 1 hardening controls (security groups, disabled password auth, private subnet) prevented compromise
 - Recommend adding NACL geo-blocking rule to reduce noise from known Tor exit nodes
+
+<img width="653" height="236" alt="image" src="https://github.com/user-attachments/assets/492b6f3c-61c1-41ce-b891-87b02b371faa" />
 
 ---
 
@@ -477,6 +554,8 @@ The security controls from Phase 1 hardening worked as intended.
 - CloudWatch log group: `/aws/vpc/flowlogs`
 - Wazuh alert ID: `WZ-2024-0115-001`
 - AbuseIPDB report: [link]
+
+<img width="664" height="207" alt="image" src="https://github.com/user-attachments/assets/c16f556a-f4d0-4325-899d-b2db001a37af" />
 
 ---
 
@@ -488,15 +567,15 @@ The security controls from Phase 1 hardening worked as intended.
 
 | Task | Done? |
 |---|---|
-| VPC Flow Logs enabled (All traffic) | |
-| Flow logs shipping to CloudWatch | |
-| CloudWatch Logs Insights queries tested | |
-| Wazuh manager deployed on EC2 | |
-| Wazuh agent installed on hardened EC2 | |
-| CloudTrail S3 bucket connected to Wazuh | |
-| GuardDuty EventBridge rule created | |
-| SNS alert tested (receive test email) | |
-| First incident report written | |
+| VPC Flow Logs enabled (All traffic) |✅|
+| Flow logs shipping to CloudWatch |✅|
+| CloudWatch Logs Insights queries tested |✅|
+| Wazuh manager deployed on EC2 |✅|
+| Wazuh agent installed on hardened EC2 |✅|
+| CloudTrail S3 bucket connected to Wazuh |✅|
+| GuardDuty EventBridge rule created |✅|
+| SNS alert tested (receive test email) |✅|
+| First incident report written |✅|
 
 ---
 
