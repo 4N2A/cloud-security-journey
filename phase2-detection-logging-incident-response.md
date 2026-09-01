@@ -436,67 +436,10 @@ fields @timestamp, srcAddr, dstAddr, action
     "count": 847
   }
 }
-```{
-    "eventVersion": "1.11",
-    "userIdentity": {
-        "type": "IAMUser",
-        "principalId": "AIDAQRQPWVY6MNLNT7563",
-        "arn": "arn:aws:iam::037613907516:user/admin-nnanna",
-        "accountId": "037613907516",
-        "accessKeyId": "ASIAQRQPWVY6KOJM3LQM",
-        "userName": "admin-nnanna",
-        "sessionContext": {
-            "attributes": {
-                "creationDate": "2026-08-31T17:03:58Z",
-                "mfaAuthenticated": "true"
-            }
-        }
-    },
-    "eventTime": "2026-08-31T17:26:58Z",
-    "eventSource": "ec2.amazonaws.com",
-    "eventName": "ModifySecurityGroupRules",
-    "awsRegion": "us-east-1",
-    "sourceIPAddress": "90.196.68.28",
-    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36",
-    "requestParameters": {
-        "ModifySecurityGroupRulesRequest": {
-            "SecurityGroupRule": {
-                "SecurityGroupRuleId": "sgr-0e7de70fe585475d3",
-                "tag": 1,
-                "SecurityGroupRule": {
-                    "CidrIpv4": "90.196.68.28/32",
-                    "Description": "My home IP - SSH only",
-                    "FromPort": 22,
-                    "ToPort": 22,
-                    "IpProtocol": "tcp"
-                }
-            },
-            "GroupId": "sg-0d2a0da2ef8daa944"
-        }
-    },
-    "responseElements": {
-        "ModifySecurityGroupRulesResponse": {
-            "xmlns": "http://ec2.amazonaws.com/doc/2016-11-15/",
-            "requestId": "73bbc59f-fcbf-4dea-ab41-cf59e3e4a4dc",
-            "return": true
-        }
-    },
-    "requestID": "73bbc59f-fcbf-4dea-ab41-cf59e3e4a4dc",
-    "eventID": "6aab75c2-eddb-4903-ac20-ccba06a4c7a0",
-    "readOnly": false,
-    "eventType": "AwsApiCall",
-    "managementEvent": true,
-    "recipientAccountId": "037613907516",
-    "eventCategory": "Management",
-    "tlsDetails": {
-        "tlsVersion": "TLSv1.3",
-        "cipherSuite": "TLS_AES_128_GCM_SHA256",
-        "clientProvidedHostHeader": "ec2.us-east-1.amazonaws.com"
-    },
-    "sessionCredentialFromConsole": "true"
-}
 
----
+```
+<img width="722" height="820" alt="image" src="https://github.com/user-attachments/assets/636a83b6-4360-4d68-bd71-d5630ac260ae" />
+
 
 ## 5. Impact Assessment
 
