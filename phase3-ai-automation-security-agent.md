@@ -71,10 +71,13 @@ pip3 install boto3 --break-system-packages
 aws configure list
 aws guardduty list-detectors --region us-east-1
 ```
+<img width="534" height="198" alt="image" src="https://github.com/user-attachments/assets/6c742e69-b630-4206-bdd9-f65ce14e9d26" />
 
 Note the detector ID — you'll need it for all GuardDuty API calls.
 
 ### `guardduty_puller.py`
+
+
 
 ```python
 import boto3
@@ -159,6 +162,7 @@ if __name__ == '__main__':
     findings = pull_findings(min_severity=1.0)
     print(f"\nTotal findings pulled: {len(findings)}")
 ```
+<img width="716" height="486" alt="image" src="https://github.com/user-attachments/assets/c37f1346-525d-4889-9214-09a0f52d5b47" />
 
 ### Run it
 
@@ -167,6 +171,8 @@ python3 guardduty_puller.py
 ```
 
 Expected output shows all GuardDuty findings sorted by severity with full details.
+
+<img width="713" height="466" alt="image" src="https://github.com/user-attachments/assets/4ed63f4f-ab0f-44a7-885f-dc1f80d50cc2" />
 
 ---
 
@@ -195,6 +201,7 @@ Go to **IAM → Roles → Create role**:
 - Role name: `lambda-security-remediation-role`
 
 ### `lambda_auto_remediate.py`
+<img width="1919" height="880" alt="image" src="https://github.com/user-attachments/assets/9f92f304-7e81-4416-9ecd-6a8cbcc541d6" />
 
 ```python
 import boto3
@@ -403,6 +410,7 @@ def snapshot_instance(instance_id):
 Go to your existing `guardduty-high-severity-alert` EventBridge rule:
 - **Edit → Targets → Add target → Lambda function**
 - Select `guardduty-auto-remediate`
+<img width="1920" height="484" alt="image" src="https://github.com/user-attachments/assets/1afbd069-4651-4d2f-9d93-0f27dfdeb79a" />
 
 ---
 
