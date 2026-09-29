@@ -46,9 +46,9 @@ If you have a background in network security and want to move into cloud, this r
 | Phase | Focus Area | Status |
 |---|---|---|
 | **Phase 1** | Secure AWS Foundation — VPC, Subnets, Bastion Host, Hardened EC2, VPC Flow Logs, GuardDuty | ✅ Complete |
-| **Phase 2** | SIEM Deployment — Wazuh on Ubuntu 22.04 LTS, log ingestion, alerting rules | 🔄 In Progress |
-| **Phase 3** | IAM Hardening — Least privilege policies, MFA enforcement, IAM Access Analyser | 📋 Planned |
-| **Phase 4** | Threat Detection & Automated Response — EventBridge, Lambda auto-remediation | 📋 Planned |
+| **Phase 2** | SIEM Deployment — Wazuh on Ubuntu 22.04 LTS, log ingestion, alerting rules | ✅ Complete |
+| **Phase 3** | IAM Hardening — Least privilege policies, MFA enforcement, IAM Access Analyser | ✅ Complete |
+| **Phase 4** | Threat Detection & Automated Response — EventBridge, Lambda auto-remediation | ✅ Complete |
 | **Phase 5** | Infrastructure as Code — Terraform to rebuild all phases as reusable IaC | 📋 Planned |
 | **Phase 6** | Compliance & Audit — AWS Security Hub, CIS Benchmark checks, automated reporting | 📋 Planned |
 
